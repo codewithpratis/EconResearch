@@ -1,4 +1,27 @@
-// Revisited CPS changes with Metropolitan region
+/****************************************
+Final Paper 
+Prateetya Bajracharya
+12/01/2024
+****************************************/
+
+set more off
+clear
+
+capture log close
+*** Creating a Log File ***
+log using "Prateetya_final_task.log", replace text
+
+*** Installing Packages ***
+ssc install estout, replace
+
+*** Creating Directories ***
+global desktop "/users/pratis/desktop" // desktop directory on my mac. 
+global mainpath "$desktop/Final Paper" //  directory where the files are stored.
+
+*** Load the dta file ***
+use "$mainpath/final_paper_cps.dta", clear
+
+// CPS changes with Metropolitan region
 
 * Filter variables
 drop if classwkr == 00
