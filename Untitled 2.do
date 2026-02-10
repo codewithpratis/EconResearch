@@ -136,7 +136,7 @@ esttab using "${outtex}",
 * Summary Stats By Group-Sample Table
 *-----------------------------*
 * Directory Setting
-global outtex "${mainpath}/Summary_Stats_Different_Groups.tex"
+global outtexsum2 "${mainpath}/Summary_Stats_Different_Groups.tex"
 
 * Post summary stats and store results
 * All Education Groups 
@@ -158,8 +158,8 @@ eststo grp5: estpost tabstat employment_status age sex if edu_category==4, c(sta
 eststo grp6: estpost tabstat employment_status age sex if edu_category==5, c(stat) stat(mean sd min max n)
 
 
- #delimit ;
- esttab grp* using "${outtex}",
+#delimit ;
+ esttab grp* using "${outtexsum2}",
   replace 
   cells("mean(fmt(7))" "sd(par)") 
  nonumber ///Do not put numbers below column titlles
@@ -178,6 +178,7 @@ eststo grp6: estpost tabstat employment_status age sex if edu_category==5, c(sta
 	)
  ;
 #delimit cr
+
 *-----------------------------*
 *  Balance tests (pre-period only)
 *-----------------------------*
@@ -219,21 +220,20 @@ eststo m3: reg employment_status treatment post_policy did ///
 estadd local controls "Yes"
 estadd local fe "Yes"
 
-* Export to LaTeX
 #delimit ;
-esttab using "${outtex}", 
-  se(3) /// SE with 3 Decimal Places
-  b(2) /// Coefficients with 2 Decimal Places
+ esttab using "${outtexreg}", 
+  se(3) 
+  b(2) 
   label booktabs nomtitle
-  replace /// Replace File
+  replace 
   title(Regressions \label{tab1}) 
   mgroups("Employment Status", pattern(1 0 0)
-   prefix(\multicolumn{@span}{c}{) ///Set-up for Group Title
-   suffix(}) 
-   span
-   erepeat(\cmidrule(lr){@span}) ///Make the Line Under Each Group
+  prefix(\multicolumn{@span}{c}{) 
+  suffix(}) 
+  span
+  erepeat(\cmidrule(lr){@span}) 
    ) 
-   keep(treatment post_policy did age female black asian pacafic_islander two_more_race 2.edu_category 3.edu_category 4.edu_category 5.edu_category ) /// Include only relevant variables  
+  keep(treatment post_policy did age female black asian pacafic_islander two_more_race 2.edu_category 3.edu_category 4.edu_category 5.edu_category ) /// Include only relevant variables  
   coeflabels(
 			treatment "Stringest Policy States" 
 			post_policy "Post March 2020" 
